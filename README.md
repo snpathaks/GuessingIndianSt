@@ -4,7 +4,7 @@ Hello👋, I'm Shalini . This repository contains basic games written in C++ and
 <h4>-------------------------------------------------------------------------------------------------------------------------------------------------------------</h4>
 Game 0 : The Avengers Game 🦹‍♂️🕸️⚒️.<br>
 
-<img src="https://image.remaker.ai/datarm7/ai-sticker/output/2025-01-26/21190950-b6b1-4497-8b5b-193bfaafd205.png" alt="AI Sticker" width="30">
+  <img src="https://image.remaker.ai/datarm7/ai-sticker/output/2025-01-26/21190950-b6b1-4497-8b5b-193bfaafd205.png" alt="AI Sticker" width="150">
 
 
 
