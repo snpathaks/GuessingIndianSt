@@ -3,7 +3,7 @@ Hello👋, I'm Shalini . This repository contains basic games written in C++ and
 <h5>By Shalini.....</h5>
 <h4>-------------------------------------------------------------------------------------------------------------------------------------------------------------</h4>
 Game 0 : The Avengers Game 🦹‍♂️🕸️⚒️.<br>
-![image](https://github.com/user-attachments/assets/56791cd6-8a74-4c8a-adee-cfd1d7cfe324)
+https://image.remaker.ai/datarm7/ai-sticker/output/2025-01-26/21190950-b6b1-4497-8b5b-193bfaafd205.png
 
 
 Game 1 : Lets Guess the states of India 🤔.<br>
