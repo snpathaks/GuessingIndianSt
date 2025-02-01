@@ -11,6 +11,8 @@ Game 2 : Place to Escape 🏃‍➡️🏃‍♀️‍➡️.<br>
 <img src="https://image.remaker.ai/datarm7/ai-sticker/output/2025-01-29/3605d65c-5112-40b8-bcc1-fa170668622a.png" alt="AI Sticker" width="150">
 
 Game 3 : Sweet , Salty and Sour 🍭🍝🥒.<br>
+<img src="https://image.remaker.ai/datarm7/ai-sticker/output/2025-02-01/aa5711ec-a13b-4c9f-8119-cfb10f6c0c5f.png" alt="AI Sticker" width="150">
+
 
 
 
