@@ -14,7 +14,7 @@ Game 3 : Sweet , Salty and Sour 🍭🍝🥒.<br>
 
 
 Game 4 : Tic Tac Toe ❌⭕.<br>
-<img src="https://image.remaker.ai/datarm7/ai-sticker/output/2025-02-06/b6cfed03-9aca-4d4d-a576-654a06e13158.png" alt="AI Sticker" width="150">
+
 
 
 
