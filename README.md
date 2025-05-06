@@ -2,7 +2,7 @@
 <h2>Basic games:</h2>
 <h5>By Shalini ....</h5>
 
-Game 0 : The Avengers Game 🦹‍♂️🕸️⚒️.<br>
+Game 0 : The Avenger's Game 🦹‍♂️🕸️⚒️.<br>
 Game 1 : Lets Guess the states of India 🤔.<br>
 Game 2 : Place to Escape From🏃‍♀️‍➡️.<br>
 Game 3 : Sweet , Salty and Sour 🍭🍝🥒.<br>
