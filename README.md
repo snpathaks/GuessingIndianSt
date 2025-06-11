@@ -1,4 +1,4 @@
-<h3>👋, I'm Shalini . This repository contains basic games written in Python , C++ and java languauge.<br></h3>
+<h3>👋I'm Shalini . This repository contains basic games written in Python , C++ and java languauge.<br></h3>
 <h2>Basic games:</h2>
 <h5>By Shalini ....</h5>
 
