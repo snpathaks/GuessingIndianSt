@@ -7,7 +7,7 @@ Game 1 : Lets Guess the states of India 🤔.&nbsp;// Work is in progress!...<br
 Game 2 : Place to Escape From🏃‍♀️‍➡️.<br> &nbsp; // 2nd round
 Game 3 : Sweet , Salty and Sour 🍭🍝🥒.<br>
 Using Flask FrameWork PYTHON.
-site 1 : oops!
+site 1 : oops! concept
 
 
 
