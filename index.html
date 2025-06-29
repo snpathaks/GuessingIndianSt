@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Indian States Educational Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .indian-flag-gradient {
+            background: linear-gradient(to right, #ff9933 33.33%, #ffffff 33.33%, #ffffff 66.66%, #138808 66.66%);
+        }
+        .text-gradient {
+            background: linear-gradient(45deg, #ff9933, #138808);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+    <!-- Game Start Screen -->
+    <div id="start-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full">
+            <!-- Header -->
+            <div class="text-center mb-8 slide-in">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-12 indian-flag-gradient rounded-lg shadow-lg mr-4"></div>
+                    <h1 class="text-5xl md:text-6xl font-bold text-gradient">
+                        Incredible India
+                    </h1>
+                </div>
+                <p class="text-2xl text-gray-700 mb-3 font-semibold">States Knowledge Challenge</p>
+                <p class="text-lg text-gray-600">Test your knowledge of Indian states through food, history, and monuments!</p>
+            </div>
+
+            <!-- High Score Display -->
+            <div id="high-score-display" class="bg-white rounded-2xl shadow-xl p-6 mb-8 border-2 border-orange-200 slide-in" style="display: {{ 'block' if high_score > 0 else 'none' }};">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-trophy text-3xl text-yellow-500 mr-3"></i>
+                    <span class="text-xl font-bold text-gray-800">Best Score: <span id="high-score-value" class="text-orange-600">{{ high_score }}</span></span>
+                </div>
+            </div>
+
+            <!-- Game Features -->
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-8 shadow-xl border-2 border-orange-100 text-center card-hover slide-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <span class="text-3xl">🍛</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Famous Foods</h3>
+                    <p class="text-gray-600">Discover regional delicacies and traditional cuisines</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-xl border-2 border-green-100 text-center card-hover slide-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-book text-2xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Rich History</h3>
+                    <p class="text-gray-600">Learn about ancient dynasties and cultural heritage</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-xl border-2 border-blue-100 text-center card-hover slide-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <span class="text-3xl">🏛️</span>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-800 mb-3">Monuments</h3>
+                    <p class="text-gray-600">Explore architectural wonders and UNESCO sites</p>
+                </div>
+            </div>
+
+            <!-- Difficulty Selection -->
+            <div class="bg-white rounded-3xl shadow-2xl p-10 border-2 border-orange-200 slide-in">
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Choose Your Challenge</h2>
+                <div class="grid gap-6">
+                    <button onclick="startGame('easy')" class="flex items-center justify-between p-6 border-3 border-green-200 rounded-2xl hover:border-green-400 hover:bg-green-50 transition-all duration-300 group card-hover bg-gradient-to-r from-green-50 to-green-100">
+                        <div class="text-left">
+                            <h3 class="font-bold text-2xl text-gray-800 group-hover:text-green-700 mb-1">Easy</h3>
+                            <p class="text-gray-600 text-lg">Popular states • 10 points base • Perfect for beginners</p>
+                        </div>
+                        <div class="bg-green-500 rounded-full p-3 group-hover:bg-green-600 transition-colors">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </button>
+                    
+                    <button onclick="startGame('medium')" class="flex items-center justify-between p-6 border-3 border-orange-200 rounded-2xl hover:border-orange-400 hover:bg-orange-50 transition-all duration-300 group card-hover bg-gradient-to-r from-orange-50 to-orange-100">
+                        <div class="text-left">
+                            <h3 class="font-bold text-2xl text-gray-800 group-hover:text-orange-700 mb-1">Medium</h3>
+                            <p class="text-gray-600 text-lg">Moderate challenge • 20 points base • Test your knowledge</p>
+                        </div>
+                        <div class="bg-orange-500 rounded-full p-3 group-hover:bg-orange-600 transition-colors">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </button>
+                    
+                    <button onclick="startGame('hard')" class="flex items-center justify-between p-6 border-3 border-red-200 rounded-2xl hover:border-red-400 hover:bg-red-50 transition-all duration-300 group card-hover bg-gradient-to-r from-red-50 to-red-100">
+                        <div class="text-left">
+                            <h3 class="font-bold text-2xl text-gray-800 group-hover:text-red-700 mb-1">Hard</h3>
+                            <p class="text-gray-600 text-lg">Expert level • 30 points base • Ultimate challenge</p>
+                        </div>
+                        <div class="bg-red-500 rounded-full p-3 group-hover:bg-red-600 transition-colors">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Play Screen -->
+    <div id="game-screen" class="min-h-screen p-4" style="display: none;">
+        <div class="max-w-5xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-2 border-orange-200">
+                <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-map-marker-alt text-2xl text-orange-600"></i>
+                            <span class="font-bold text-xl text-gray-700">Round <span id="round-number">1</span></span>
+                        </div>
+                        <div id="difficulty-badge" class="px-4 py-2 rounded-full text-lg font-bold shadow-lg">
+                            EASY
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-8">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-trophy text-2xl text-yellow-500"></i>
+                            <span class="font-bold text-xl text-gray-700" id="current-score">0</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-clock text-2xl text-blue-500"></i>
+                            <span class="font-bold text-xl text-gray-700" id="timer">60s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clues -->
+            <div class="grid gap-6 mb-8">
+                <div class="bg-white rounded-2xl shadow-xl border-2 border-orange-100 overflow-hidden">
+                    <div class="p-6 border-b-2 border-gray-100 bg-gradient-to-r from-orange-50 to-orange-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                                    <span class="text-2xl">🍛</span>
+                                </div>
+                                <h3 class="font-bold text-xl text-gray-800">Food Clue</h3>
+                            </div>
+                            <button id="food-hint-btn" onclick="revealHint('food')" class="flex items-center gap-3 px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200 shadow-lg font-semibold">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Reveal</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="food-clue" class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50" style="display: none;">
+                        <p class="text-gray-800 leading-relaxed text-lg font-medium"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl border-2 border-green-100 overflow-hidden">
+                    <div class="p-6 border-b-2 border-gray-100 bg-gradient-to-r from-green-50 to-green-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-book text-xl text-white"></i>
+                                </div>
+                                <h3 class="font-bold text-xl text-gray-800">History Clue</h3>
+                            </div>
+                            <button id="history-hint-btn" onclick="revealHint('history')" class="flex items-center gap-3 px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200 shadow-lg font-semibold">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Reveal</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="history-clue" class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50" style="display: none;">
+                        <p class="text-gray-800 leading-relaxed text-lg font-medium"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl border-2 border-blue-100 overflow-hidden">
+                    <div class="p-6 border-b-2 border-gray-100 bg-gradient-to-r from-blue-50 to-blue-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                                    <span class="text-2xl">🏛️</span>
+                                </div>
+                                <h3 class="font-bold text-xl text-gray-800">Monument Clue</h3>
+                            </div>
+                            <button id="monument-hint-btn" onclick="revealHint('monument')" class="flex items-center gap-3 px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all duration-200 shadow-lg font-semibold">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Reveal</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="monument-clue" class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50" style="display: none;">
+                        <p class="text-gray-800 leading-relaxed text-lg font-medium"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Hints -->
+            <div id="additional-hints" class="bg-white rounded-2xl shadow-xl p-6 mb-8 border-2 border-yellow-200" style="display: none;">
+                <h4 class="font-bold text-xl text-gray-800 mb-4 flex items-center gap-3">
+                    <i class="fas fa-lightbulb text-2xl text-yellow-500"></i>
+                    Additional Hints
+                </h4>
+                <div id="hints-container" class="flex flex-wrap gap-3">
+                    <!-- Hints will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Input Section -->
+            <div id="input-section" class="bg-white rounded-2xl shadow-xl p-8 border-2 border-orange-200">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Which Indian state is this?</h3>
+                <div class="flex gap-4">
+                    <input type="text" id="user-guess" placeholder="Enter your guess..." 
+                           class="flex-1 px-6 py-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-orange-300 focus:border-orange-500 outline-none transition-all duration-200 text-lg font-medium">
+                    <button onclick="submitGuess()" id="submit-btn" 
+                            class="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 flex items-center gap-3 shadow-lg font-bold text-lg">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit
+                    </button>
+                </div>
+                <p class="text-gray-600 mt-4 text-center text-lg">
+                    Hints used: <span id="hints-used" class="font-bold text-orange-600">0</span> • Score penalty: -<span id="penalty-points" class="font-bold text-red-600">0</span> points
+                </p>
+            </div>
+
+            <!-- Feedback Section -->
+            <div id="feedback-section" class="bg-white rounded-2xl shadow-xl p-8 border-2 border-orange-200" style="display: none;">
+                <div id="feedback-content" class="text-center mb-6">
+                    <!-- Feedback content will be added here -->
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="newRound()" class="flex-1 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg font-bold text-lg">
+                        <i class="fas fa-redo"></i>
+                        Next Challenge
+                    </button>
+                    <button onclick="backToStart()" class="px-8 py-4 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-200 flex items-center gap-3 shadow-lg font-bold text-lg">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentState = null;
+        let hintsUsed = 0;
+        let gameTimer = null;
+        let timeLeft = 60;
+        let gameActive = false;
+
+        // Difficulty colors
+        const difficultyColors = {
+            easy: 'text-green-700 bg-green-200 border-green-300',
+            medium: 'text-orange-700 bg-orange-200 border-orange-300',
+            hard: 'text-red-700 bg-red-200 border-red-300'
+        };
+
+        async function startGame(difficulty) {
+            try {
+                const response = await fetch('/start_game', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ difficulty: difficulty })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    currentState = data.state;
+                    document.getElementById('start-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'block';
+                    
+                    // Update UI
+                    document.getElementById('round-number').textContent = data.games_played;
+                    document.getElementById('difficulty-badge').textContent = difficulty.toUpperCase();
+                    document.getElementById('difficulty-badge').className = `px-4 py-2 rounded-full text-lg font-bold shadow-lg border-2 ${difficultyColors[difficulty]}`;
+                    
+                    // Set clue content
+                    document.querySelector('#food-clue p').textContent = currentState.food;
+                    document.querySelector('#history-clue p').textContent = currentState.history;
+                    document.querySelector('#monument-clue p').textContent = currentState.monument;
+                    
+                    // Reset game state
+                    hintsUsed = 0;
+                    timeLeft = 60;
+                    gameActive = true;
+                    
+                    // Reset UI
+                    resetGameUI();
+                    startTimer();
+                }
+            } catch (error) {
+                console.error('Error starting game:', error);
+            }
+        }
+
+        function resetGameUI() {
+            // Hide all clues
+            document.getElementById('food-clue').style.display = 'none';
+            document.getElementById('history-clue').style.display = 'none';
+            document.getElementById('monument-clue').style.display = 'none';
+            
+            // Show hint buttons
+            document.getElementById('food-hint-btn').style.display = 'flex';
+            document.getElementById('history-hint-btn').style.display = 'flex';
+            document.getElementById('monument-hint-btn').style.display = 'flex';
+            
+            // Hide additional hints
+            document.getElementById('additional-hints').style.display = 'none';
+            
+            // Show input section, hide feedback
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('feedback-section').style.display = 'none';
+            
+            // Clear input
+            document.getElementById('user-guess').value = '';
+            document.getElementById('user-guess').disabled = false;
+            document.getElementById('submit-btn').disabled = false;
+            
+            // Update hints counter
+            updateHintsDisplay();
+        }
+
+        async function revealHint(type) {
+            // Show the clue
+            document.getElementById(`${type}-clue`).style.display = 'block';
+            document.getElementById(`${type}-clue`).classList.add('slide-in');
+            
+            // Hide the button
+            document.getElementById(`${type}-hint-btn`).style.display = 'none';
+            
+            // Increment hints used
+            try {
+                await fetch('/use_hint', { method: 'POST' });
+                hintsUsed++;
+                updateHintsDisplay();
+                
+                // Show additional hints if any hints have been used
+                if (hintsUsed > 0) {
+                    showAdditionalHints();
+                }
+            } catch (error) {
+                console.error('Error using hint:', error);
+            }
+        }
+
+        function showAdditionalHints() {
+            const hintsContainer = document.getElementById('hints-container');
+            const additionalHintsDiv = document.getElementById('additional-hints');
+            
+            // Clear existing hints
+            hintsContainer.innerHTML = '';
+            
+            // Add hints up to the number used
+            for (let i = 0; i < Math.min(hintsUsed, currentState.hints.length); i++) {
+                const hintSpan = document.createElement('span');
+                hintSpan.className = 'px-4 py-2 bg-yellow-200 text-yellow-800 rounded-full text-lg font-semibold bounce-in shadow-md border-2 border-yellow-300';
+                hintSpan.textContent = currentState.hints[i];
+                hintsContainer.appendChild(hintSpan);
+            }
+            
+            additionalHintsDiv.style.display = 'block';
+            additionalHintsDiv.classList.add('slide-in');
+        }
+
+        function updateHintsDisplay() {
+            document.getElementById('hints-used').textContent = hintsUsed;
+            document.getElementById('penalty-points').textContent = hintsUsed * 2;
+        }
+
+        function startTimer() {
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = `${timeLeft}s`;
+                
+                if (timeLeft <= 10) {
+                    document.getElementById('timer').classList.add('text-red-600', 'pulse-animation');
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(gameTimer);
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        function timeUp() {
+            gameActive = false;
+            document.getElementById('user-guess').disabled = true;
+            document.getElementById('submit-btn').disabled = true;
+            
+            showFeedback(false, 0, `Time's up! The correct answer was ${currentState.name}.`);
+        }
+
+        async function submitGuess() {
+            if (!gameActive) return;
+            
+            const userGuess = document.getElementById('user-guess').value.trim();
+            if (!userGuess) return;
+            
+            try {
+                const response = await fetch('/submit_guess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ guess: userGuess })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    clearInterval(gameTimer);
+                    gameActive = false;
+                    
+                    // Update current score display
+                    document.getElementById('current-score').textContent = data.current_score;
+                    
+                    // Update high score if needed
+                    if (data.high_score > parseInt(document.getElementById('high-score-value').textContent)) {
+                        document.getElementById('high-score-value').textContent = data.high_score;
+                        document.getElementById('high-score-display').style.display = 'block';
+                    }
+                    
+                    const message = data.correct 
+                        ? `Excellent! You scored ${data.score} points!` 
+                        : `Not quite! The correct answer was ${data.correct_answer}.`;
+                    
+                    showFeedback(data.correct, data.score, message, data.time_bonus);
+                }
+            } catch (error) {
+                console.error('Error submitting guess:', error);
+            }
+        }
+
+        function showFeedback(correct, score, message, timeBonus = 0) {
+            document.getElementById('input-section').style.display = 'none';
+            document.getElementById('feedback-section').style.display = 'block';
+            document.getElementById('feedback-section').classList.add('bounce-in');
+            
+            const feedbackContent = document.getElementById('feedback-content');
+            const emoji = correct ? '🎉' : '😅';
+            const textColor = correct ? 'text-green-600' : 'text-red-600';
+            
+            let feedbackHTML = `
+                <div class="${textColor}">
+                    <div class="text-6xl mb-4">${emoji}</div>
+                    <h3 class="text-3xl font-bold mb-4">${message}</h3>
+            `;
+            
+            if (correct && timeBonus > 0) {
+                feedbackHTML += `
+                    <div class="text-lg text-gray-700 bg-gray-100 rounded-xl p-4 inline-block">
+                        <p class="font-semibold">Time bonus: +${timeBonus} points</p>
+                        <p class="font-semibold">Final score: ${score} points</p>
+                    </div>
+                `;
+            }
+            
+            feedbackHTML += '</div>';
+            feedbackContent.innerHTML = feedbackHTML;
+        }
+
+        async function newRound() {
+            try {
+                const response = await fetch('/new_round', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentState = data.state;
+                    document.getElementById('round-number').textContent = data.games_played;
+                    
+                    // Set new clue content
+                    document.querySelector('#food-clue p').textContent = currentState.food;
+                    document.querySelector('#history-clue p').textContent = currentState.history;
+                    document.querySelector('#monument-clue p').textContent = currentState.monument;
+                    
+                    // Reset game state
+                    hintsUsed = 0;
+                    timeLeft = 60;
+                    gameActive = true;
+                    
+                    // Reset UI
+                    resetGameUI();
+                    document.getElementById('timer').classList.remove('text-red-600', 'pulse-animation');
+                    startTimer();
+                }
+            } catch (error) {
+                console.error('Error starting new round:', error);
+            }
+        }
+
+        async function backToStart() {
+            try {
+                await fetch('/reset_game', { method: 'POST' });
+                
+                clearInterval(gameTimer);
+                document.getElementById('game-screen').style.display = 'none';
+                document.getElementById('start-screen').style.display = 'block';
+                
+                // Reset all game variables
+                currentState = null;
+                hintsUsed = 0;
+                timeLeft = 60;
+                gameActive = false;
+            } catch (error) {
+                console.error('Error resetting game:', error);
+            }
+        }
+
+        // Allow Enter key to submit guess
+        document.getElementById('user-guess').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitGuess();
+            }
+        });
+    </script>
+</body>
+</html>
