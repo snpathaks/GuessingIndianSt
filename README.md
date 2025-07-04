@@ -1,4 +1,4 @@
-# 🇮🇳 Incredible India - States Knowledge Challenge:
+# Incredible India - States Knowledge Challenge:
 
 An interactive educational web game that tests your knowledge of Indian states through food, history, and monuments. Built with Flask and modern web technologies.
 
